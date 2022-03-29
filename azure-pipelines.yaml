@@ -15,8 +15,7 @@ jobs:
       mkdir "$(Build.ArtifactStagingDirectory)/whvp-sys"
     displayName: Prep Build
   - script: |
-      cd whvp-sys
-      cargo build
+      cargo build --manifest-path whvp-sys/Cargo.toml --lib
     displayName: Build 
   - task: CopyFiles@2
     inputs:
