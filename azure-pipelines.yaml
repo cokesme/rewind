@@ -1,0 +1,26 @@
+trigger:
+- master
+- releases/*
+
+pr:
+- master
+- releases/*
+
+jobs:
+- job: Windows
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+  - script: |
+      mkdir "$(Build.ArtifactStagingDirectory)/whvp-sys"
+    displayName: Prep Build
+  - script: |
+      cd whvp-sys
+      cargo build
+    displayName: Build 
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: whvp-sys
+      targetFolder: $(Build.ArtifactStagingDirectory)\whvp-sys
+  - publish: $(Build.ArtifactStagingDirectory)
+    artifact: whvp-sys-x64-win
